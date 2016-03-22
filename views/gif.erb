@@ -1,0 +1,10 @@
+<h2><%= @gif.caption %></h2>
+
+<div class="well well-lg">
+  <div class="image_box">
+    <img src="/catalog/<%= @gif.file %>">
+    <p><small>source: <%= @gif.source %></small></p>
+
+    <p><i class="glyphicon glyphicon-tags"></i> <%= @gif.tags %></p>
+  </div>
+</div>

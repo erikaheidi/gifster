@@ -1,0 +1,34 @@
+<div class="pull-right">
+  <form class="form-inline" method="get" action="/search">
+    <div class="form-group form-group-sm">
+      <label for="tag"></label>
+      <input type="search" class="form-control" id="search" placeholder="Search Term" name="search">
+    </div>
+
+    <button type="submit" class="btn btn-default btn-sm">go</button>
+  </form>
+</div>
+<p class="clearfix"></p>
+
+
+<h2>Submit a new Gif</h2>
+<div class="well well-lg">
+<form class="form-inline" method="post" name="gif" action="/submit">
+    <div class="form-group form-group-lg">
+    <label for="url"></label>
+    <input type="text" class="form-control" id="url" placeholder="Gif URL" name="url" size="40">
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+</form>
+</div>
+
+<h3>Recent Submissions</h3>
+<div class="row">
+  <% @recent.each do |gif| %>
+    <div class="col-xs-6 col-md-3">
+      <a href="#" class="thumbnail"><img src="<%= gif.source %>"></a>
+      <p><small></small></p>
+    </div>
+  <% end %>
+</div>
