@@ -12,13 +12,44 @@ class Gif
   property :id, Serial
   property :caption, Text
   property :source, Text
-  property :file, String
+  property :file, String, :required => true
   property :tags, Text
   property :created_at, DateTime
 
 end
 
 DataMapper.finalize.auto_upgrade!
+
+class Submission
+  attr_reader :url, :filename, :image
+
+  def initialize(url)
+    @url = url
+  end
+
+  def duplicate?
+    Gif.count(:source => @url) > 0
+  end
+
+  def valid?
+    @image = MiniMagick::Image.open(@url)
+    @image.mime_type == "image/gif"
+  end
+
+  def save
+    @filename = "#{gen_name}.gif"
+    @image.write("public/catalog/#{@filename}") if valid?
+  end
+
+  def gen_name
+    md5_hash = Digest::MD5.new
+    md5_hash << @url
+  end
+end
+
+###########
+# Routes
+###########
 
 get '/' do
   @recent = Gif.all(:limit => 10, :order => [ :created_at.desc ])
@@ -27,24 +58,28 @@ get '/' do
 end
 
 post '/submit' do
-  @gif_url = params['url']
+
+  @submission = Submission.new(params['url'])
+
+  return "This URL was already imported before." if @submission.duplicate?
+  return "Invalid image type." unless @submission.valid?
 
   erb :submission
 end
 
 post '/create' do
-  gif_url = params['gif_url']
-  #TODO: check image mimetype, check if it was added before
-  md5_hash = Digest::MD5.new
-  md5_hash << gif_url
-  image = MiniMagick::Image.open(gif_url)
-  image.write("public/catalog/#{md5_hash}.gif")
+  submission = Submission.new(params['gif_url'])
+
+  return "This URL was already imported before." if submission.duplicate?
+  return "Invalid image type." unless submission.valid?
+
+  submission.save
 
   gif = Gif.create(
     :caption    => params['caption'],
-    :source     => params['gif_url'],
+    :source     => submission.url,
     :tags       => params['tags'],
-    :file       => "#{md5_hash}.gif",
+    :file       => submission.filename,
     :created_at => Time.now
   )
 

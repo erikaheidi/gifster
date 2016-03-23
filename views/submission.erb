@@ -2,13 +2,13 @@
 
 <div class="well well-lg">
   <div class="image_box">
-    <img src="<%= @gif_url %>">
-    <p><small>source: <%= @gif_url %></small></p>
+    <img src="<%= @submission.url %>">
+    <p><small>source: <%= @submission.url %></small></p>
   </div>
 
   <h3>Now give us some metadata!</h3>
   <form class="form-horizontal" method="POST" action="/create">
-    <input type="hidden" name="gif_url" value="<%= @gif_url %>">
+    <input type="hidden" name="gif_url" value="<%= @submission.url %>">
     <div class="form-group">
       <label for="caption" class="col-sm-2 control-label">Caption</label>
       <div class="col-sm-10">
