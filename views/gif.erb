@@ -1,10 +1,13 @@
-<h2><%= @gif.caption %></h2>
 
 <div class="well well-lg">
   <div class="image_box">
+    <h2><%= @gif.caption %></h2>
     <img src="/catalog/<%= @gif.file %>">
-    <p><small>source: <%= @gif.source %></small></p>
+    <p><% @gif.tag_list.each do |tag| %>
+      <a class="label label-info" href="/search?search=<%= tag %>"><%= tag %></a>
+      <% end %>
+    </p>
 
-    <p><i class="glyphicon glyphicon-tags"></i> <%= @gif.tags %></p>
+    <p class="text-right"><small>[ <a href="<%= @gif.source %>" target="_blank">source</a> ]</small></p>
   </div>
 </div>

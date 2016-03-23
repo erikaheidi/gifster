@@ -16,6 +16,9 @@ class Gif
   property :tags, Text
   property :created_at, DateTime
 
+  def tag_list
+    @tags.split(',')
+  end
 end
 
 DataMapper.finalize.auto_upgrade!
@@ -58,7 +61,6 @@ get '/' do
 end
 
 post '/submit' do
-
   @submission = Submission.new(params['url'])
 
   return "This URL was already imported before." if @submission.duplicate?
@@ -92,4 +94,12 @@ get '/gif/:id' do
   @gif = Gif.get(params['id'])
 
   erb :gif
+end
+
+get '/search' do
+  @search = params['search']
+  @results = []
+  @results = Gif.all(:tags.like => "%#{@search}%") if @search
+
+  erb :search
 end

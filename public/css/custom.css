@@ -83,3 +83,7 @@ div.image_box {
     margin: 10px;
     padding: 10px;
 }
+
+div.image_box img {
+    margin-bottom: 10px;
+}

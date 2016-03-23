@@ -1,15 +1,4 @@
-<div class="pull-right">
-  <form class="form-inline" method="get" action="/search">
-    <div class="form-group form-group-sm">
-      <label for="tag"></label>
-      <input type="search" class="form-control" id="search" placeholder="Search Term" name="search">
-    </div>
-
-    <button type="submit" class="btn btn-default btn-sm">go</button>
-  </form>
-</div>
-<p class="clearfix"></p>
-
+<%= erb :_search %>
 
 <h2>Submit a new Gif</h2>
 <div class="well well-lg">
@@ -27,8 +16,11 @@
 <div class="row">
   <% @recent.each do |gif| %>
     <div class="col-xs-6 col-md-3">
-      <a href="#" class="thumbnail"><img src="<%= gif.source %>"></a>
-      <p><small></small></p>
+      <a href="/gif/<%= gif.id %>" title="<%= gif.caption %>" class="thumbnail"><img src="<%= gif.source %>"></a>
+      <p><% gif.tag_list.each do |tag| %>
+            <a class="label label-info" href="/search?search=<%= tag %>"><%= tag %></a>
+        <% end %>
+      </p>
     </div>
   <% end %>
 </div>

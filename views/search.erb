@@ -1,0 +1,19 @@
+<%= erb :_search %>
+
+<% if @search %>
+    <h3>Search Results: <strong><%= @search %></strong></h3>
+
+    <% if @results.size > 0 %>
+    <div class="row">
+      <% @results.each do |gif| %>
+          <div class="col-xs-6 col-md-3">
+            <a href="/gif/<%= gif.id %>" title="<%= gif.caption %>" class="thumbnail"><img src="<%= gif.source %>"></a>
+          </div>
+      <% end %>
+    </div>
+    <% else %>
+      <p>Your search didn't return any results.</p>
+    <% end %>
+<% else %>
+  <p>Use the Search box to search for gifs by tag.</p>
+<% end %>
