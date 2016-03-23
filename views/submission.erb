@@ -1,4 +1,4 @@
-<h2>New Submission</h2>
+<h2><%= @gif ? "Update" : "New"%> Submission</h2>
 
 <div class="well well-lg">
   <div class="image_box">
@@ -9,23 +9,24 @@
   <h3>Now give us some metadata!</h3>
   <form class="form-horizontal" method="POST" action="/create">
     <input type="hidden" name="gif_url" value="<%= @submission.url %>">
+    <% if @gif %> <input type="hidden" name="gif_id" value="<%= @gif.id %>"><% end %>
     <div class="form-group">
       <label for="caption" class="col-sm-2 control-label">Caption</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="caption" name="caption" placeholder="My awesome gif">
+        <input type="text" class="form-control" id="caption" name="caption" placeholder="My awesome gif"<% if @gif %> value="<%= @gif.caption %> <% end %>">
       </div>
     </div>
     <div class="form-group">
       <label for="tags" class="col-sm-2 control-label">Tags</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="tags" name="tags" placeholder="gifster, lol">
+        <input type="text" class="form-control" id="tags" name="tags" placeholder="gifster, lol"<% if @gif %> value="<%= @gif.tags %> <% end %>">
         <span id="helpBlock" class="help-block">Separate tags with commas</span>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-success btn-lg">Save Gif</button>
+        <button type="submit" class="btn btn-success btn-lg"><%= @gif ? "Update" : "Save"%> Gif</button>
       </div>
     </div>
   </form>

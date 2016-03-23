@@ -55,35 +55,47 @@ end
 ###########
 
 get '/' do
-  @recent = Gif.all(:limit => 10, :order => [ :created_at.desc ])
+  @recent = Gif.all(:limit => 12, :order => [ :created_at.desc ])
 
   erb :index
 end
 
-post '/submit' do
-  @submission = Submission.new(params['url'])
+get '/submit' do
+  if params['update']
+    @gif = Gif.get(params['update'])
+    @submission = Submission.new(@gif.source)
+  else
+    @submission = Submission.new(params['url'])
 
-  return "This URL was already imported before." if @submission.duplicate?
-  return "Invalid image type." unless @submission.valid?
+    return "This URL was already imported before." if @submission.duplicate?
+    return "Invalid image type." unless @submission.valid?
+  end
 
   erb :submission
 end
 
 post '/create' do
   submission = Submission.new(params['gif_url'])
+  gif = Gif.first_or_new({ :source => submission.url })
 
-  return "This URL was already imported before." if submission.duplicate?
-  return "Invalid image type." unless submission.valid?
+  if params['gif_id']
+    gif.update(:caption => params['caption'], :tags => params['tags'])
+  else
+    return "This URL was already imported before." if submission.duplicate?
+    return "Invalid image type." unless submission.valid?
 
-  submission.save
+    submission.save
 
-  gif = Gif.create(
-    :caption    => params['caption'],
-    :source     => submission.url,
-    :tags       => params['tags'],
-    :file       => submission.filename,
-    :created_at => Time.now
-  )
+    gif.attributes = {
+        :caption    => params['caption'],
+        :source     => submission.url,
+        :tags       => params['tags'],
+        :file       => submission.filename,
+        :created_at => Time.now
+    }
+
+    gif.save
+  end
 
   redirect to("/gif/#{gif.id}") if gif.saved?
 
@@ -109,3 +121,4 @@ get '/gifs' do
 
   erb :mygifs
 end
+
