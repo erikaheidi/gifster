@@ -122,3 +122,10 @@ get '/gifs' do
   erb :mygifs
 end
 
+get '/delete' do
+  gif = Gif.get(params['id'])
+  File.delete("public/catalog/#{gif.file}")
+  gif.destroy
+
+  redirect to("/")
+end
