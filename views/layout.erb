@@ -27,14 +27,14 @@
   <div class="header clearfix">
     <nav>
       <ul class="nav nav-pills pull-right">
-        <li role="presentation" class="active"><a href="/">Home</a></li>
-        <li role="presentation"><a href="#">My Gifs</a></li>
-        <li role="presentation"><a href="/search">Search</a></li>
+        <li role="presentation"<% if request.path_info == '/' %> class="active" <% end %>><a href="/">Home</a></li>
+        <li role="presentation"<% if request.path_info == '/gifs' %> class="active" <% end %>><a href="/gifs">My Gifs</a></li>
+        <li role="presentation"<% if request.path_info == '/search' %> class="active" <% end %>><a href="/search">Search</a></li>
       </ul>
     </nav>
     <h3 class="text-muted">Gifster!</h3>
   </div>
-
+  
 
     <%= yield %>
 
@@ -44,7 +44,5 @@
 
 </div> <!-- /container -->
 
-
-<script src="/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

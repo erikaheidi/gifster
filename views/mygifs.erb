@@ -1,0 +1,15 @@
+<% if @results.size > 0 %>
+    <div class="row">
+      <% @results.each do |gif| %>
+          <div class="col-xs-6 col-md-4">
+            <a href="/gif/<%= gif.id %>" title="<%= gif.caption %>" class="thumbnail"><img src="<%= gif.source %>"></a>
+            <p><% gif.tag_list.each do |tag| %>
+                  <a class="label label-info" href="/search?search=<%= tag %>"><%= tag %></a>
+              <% end %>
+            </p>
+          </div>
+      <% end %>
+    </div>
+<% else %>
+    <p>There are no gifs in the database.</p>
+<% end %>

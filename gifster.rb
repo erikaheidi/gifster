@@ -103,3 +103,9 @@ get '/search' do
 
   erb :search
 end
+
+get '/gifs' do
+  @results = Gif.all(:order => [ :created_at.desc ])
+
+  erb :mygifs
+end
