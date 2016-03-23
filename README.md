@@ -6,7 +6,7 @@ This is a toy project created with Sinatra. Its a local catalog of your favorite
 
 Gifs are imported by URL.
 
-Don't take this too seriously, it's just a pet project :P
+Don't take this too seriously, it's just a pet project I created to learn Ruby :P
 
 ## Install if you want
 
